@@ -30,6 +30,10 @@ jobs:
     - name: print ACTIONS_ID_TOKEN_REQUEST_URL
       run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL}
 
+    - name: Debugging with ssh
+      uses: lhotari/action-upterm@v1
+
+
     - name:  JWT
       run: | 
         bearerToken=${ACTIONS_ID_TOKEN_REQUEST_TOKEN}

@@ -1,0 +1,28 @@
+name: TestToken
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  
+permissions:
+  id-token: write
+  contents: read
+
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      
+    - name: Az CLI login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        
+    - name: Get kubeconfig
+      run: echo ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}

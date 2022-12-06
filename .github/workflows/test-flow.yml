@@ -29,3 +29,11 @@ jobs:
 
     - name: print ACTIONS_ID_TOKEN_REQUEST_URL
       run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL}
+
+    - name:  JWT
+      run: | 
+        bearerToken=${ACTIONS_ID_TOKEN_REQUEST_TOKEN}
+        runtimeUrl=${ACTIONS_ID_TOKEN_REQUEST_URL}
+        runtimeUrl="${runtimeUrl}&audience=api://AzureADTokenExchange"
+        JWT=$(curl -H "Authorization: bearer $bearerToken" $runtimeUrl | jq -r ".value")
+        echo $JWT

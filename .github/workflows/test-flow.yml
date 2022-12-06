@@ -24,5 +24,5 @@ jobs:
         tenant-id: ${{ secrets.TENANT_ID }}
         subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
         
-    - name: Get kubeconfig
-      run: echo ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}
+    - name: Get Environment variables
+      run: printenv

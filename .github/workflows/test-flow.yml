@@ -17,22 +17,15 @@ jobs:
     
     steps:
       
-    - name: Az CLI login
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.CLIENT_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-        
-    - name: Get Environment variables
-      run: printenv
+    # - name: Az CLI login
+    #   uses: azure/login@v1
+    #   with:
+    #     client-id: ${{ secrets.CLIENT_ID }}
+    #     tenant-id: ${{ secrets.TENANT_ID }}
+    #     subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
 
-    - name: print ACTIONS_ID_TOKEN_REQUEST_URL
-      run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL}
-
-    - name: Debugging with ssh
-      uses: lhotari/action-upterm@v1
-
+    # - name: Debugging with ssh
+    #   uses: lhotari/action-upterm@v1
 
     - name:  JWT
       run: | 
@@ -40,4 +33,12 @@ jobs:
         runtimeUrl=${ACTIONS_ID_TOKEN_REQUEST_URL}
         runtimeUrl="${runtimeUrl}&audience=api://AzureADTokenExchange"
         JWT=$(curl -H "Authorization: bearer $bearerToken" $runtimeUrl | jq -r ".value")
-        echo $JWT
+        echo "JWT=$JWT" >> $GITHUB_ENV
+
+    - name: azure login with federated credentials
+      run: | 
+          az login --service-principal \
+          -u ${{ secrets.CLIENT_ID }} \
+          -t ${{ secrets.TENANT_ID }} \
+          --subscription ${{ secrets.SUBSCRIPTION_ID }} \
+          --federated-token ${JWT} 

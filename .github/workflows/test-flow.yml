@@ -26,3 +26,6 @@ jobs:
         
     - name: Get Environment variables
       run: printenv
+
+    - name: print ACTIONS_ID_TOKEN_REQUEST_URL
+      run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL}

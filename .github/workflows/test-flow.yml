@@ -40,5 +40,4 @@ jobs:
           az login --service-principal \
           -u ${{ secrets.CLIENT_ID }} \
           -t ${{ secrets.TENANT_ID }} \
-          --subscription ${{ secrets.SUBSCRIPTION_ID }} \
           --federated-token ${JWT} 
